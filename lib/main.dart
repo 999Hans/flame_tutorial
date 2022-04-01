@@ -18,6 +18,7 @@ class MyGame extends FlameGame with HasTappables {
   final Vector2 buttonSize = Vector2(50.0, 50.0);
   bool turnAway = false;
   TextPaint dialogTextPaint = TextPaint(style: const TextStyle(fontSize: 36));
+  int dialogLevel = 0;
 
   @override
   Future<void> onLoad() async {
@@ -60,10 +61,19 @@ class MyGame extends FlameGame with HasTappables {
     super.update(dt);
     if (girl.x < size[0] / 2 - 150) {
       girl.x += 30 * dt;
+      if (girl.x > 50 && dialogLevel == 0) {
+        dialogLevel = 1;
+      }
+      if (girl.x > 150 && dialogLevel == 1) {
+        dialogLevel = 2;
+      }
     } else if (turnAway == false) {
       boy.flipHorizontally();
       girl.flipHorizontally();
       turnAway = true;
+      if (dialogLevel == 2) {
+        dialogLevel = 3;
+      }
     }
 
     if (boy.x > size[0] / 2) {
@@ -74,11 +84,30 @@ class MyGame extends FlameGame with HasTappables {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    dialogTextPaint.render(
-        canvas,
-        'Keiko : Ken, don\'t'
-        ' go.. You\'ll die',
-        Vector2(10, size[1] - 100.0));
+    switch (dialogLevel) {
+      case 1:
+        // //play music
+        // if (!musicPlaying) {
+        //   FlameAudio.bgm.play('music.ogg');
+        //   musicPlaying = true;
+        // }
+
+        dialogTextPaint.render(
+            canvas,
+            'Keiko: Ken, don\'t'
+            ' go... You\'ll die',
+            Vector2(10, size[1] - 100.0));
+        break;
+      case 2:
+        dialogTextPaint.render(canvas, 'Ken: I must fight for our village.',
+            Vector2(10, size[1] - 100.0));
+        break;
+      case 3:
+        dialogTextPaint.render(canvas, 'Keiko: What about the baby?',
+            Vector2(10, size[1] - 100.0));
+        // add(dialogButton);
+        break;
+    }
   }
 }
 
