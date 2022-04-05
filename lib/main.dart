@@ -53,7 +53,7 @@ class MyGame extends FlameGame with HasTappables {
       ..size = buttonSize
       ..position = Vector2(
           screenWidth - buttonSize[0] - 20, screenHeight - buttonSize[1] - 20);
-    add(dialogButton);
+    // add(dialogButton);
   }
 
   @override
@@ -105,7 +105,7 @@ class MyGame extends FlameGame with HasTappables {
       case 3:
         dialogTextPaint.render(canvas, 'Keiko: What about the baby?',
             Vector2(10, size[1] - 100.0));
-        // add(dialogButton);
+        add(dialogButton);
         break;
     }
   }
