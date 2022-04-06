@@ -11,9 +11,12 @@ class MyGame extends FlameGame with HasTappables {
   SpriteComponent girl = SpriteComponent();
   SpriteComponent boy = SpriteComponent();
   SpriteComponent background = SpriteComponent();
+  SpriteComponent background2 = SpriteComponent();
   DialogButton dialogButton = DialogButton();
 
-  final double characterSize = 200;
+  bool dialogButtonVisible = false;
+
+  final double characterSize = 200.0;
   final textBoxSize = 100;
   final Vector2 buttonSize = Vector2(50.0, 50.0);
   bool turnAway = false;
@@ -25,6 +28,10 @@ class MyGame extends FlameGame with HasTappables {
     super.onLoad();
     final screenWidth = size[0];
     final screenHeight = size[1];
+    //setup background2
+    background2
+      ..sprite = await loadSprite('background2.png')
+      ..size = Vector2(screenWidth, screenHeight - textBoxSize);
 
     //load backGround
     add(background
@@ -53,7 +60,6 @@ class MyGame extends FlameGame with HasTappables {
       ..size = buttonSize
       ..position = Vector2(
           screenWidth - buttonSize[0] - 20, screenHeight - buttonSize[1] - 20);
-    // add(dialogButton);
   }
 
   @override
@@ -69,7 +75,6 @@ class MyGame extends FlameGame with HasTappables {
       }
     } else if (turnAway == false) {
       boy.flipHorizontally();
-      girl.flipHorizontally();
       turnAway = true;
       if (dialogLevel == 2) {
         dialogLevel = 3;
@@ -105,7 +110,11 @@ class MyGame extends FlameGame with HasTappables {
       case 3:
         dialogTextPaint.render(canvas, 'Keiko: What about the baby?',
             Vector2(10, size[1] - 100.0));
-        add(dialogButton);
+        if (dialogButtonVisible == false) {
+          add(dialogButton);
+          dialogButtonVisible = true;
+        }
+
         break;
     }
   }
