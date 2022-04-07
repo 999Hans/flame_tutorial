@@ -22,6 +22,7 @@ class MyGame extends FlameGame with HasTappables {
   bool turnAway = false;
   TextPaint dialogTextPaint = TextPaint(style: const TextStyle(fontSize: 36));
   int dialogLevel = 0;
+  int sceneLevel = 1;
 
   @override
   Future<void> onLoad() async {
@@ -30,7 +31,7 @@ class MyGame extends FlameGame with HasTappables {
     final screenHeight = size[1];
     //setup background2
     background2
-      ..sprite = await loadSprite('background2.png')
+      ..sprite = await loadSprite('castle.jpg')
       ..size = Vector2(screenWidth, screenHeight - textBoxSize);
 
     //load backGround
@@ -73,7 +74,7 @@ class MyGame extends FlameGame with HasTappables {
       if (girl.x > 150 && dialogLevel == 1) {
         dialogLevel = 2;
       }
-    } else if (turnAway == false) {
+    } else if (turnAway == false && sceneLevel == 1) {
       boy.flipHorizontally();
       turnAway = true;
       if (dialogLevel == 2) {
@@ -81,7 +82,7 @@ class MyGame extends FlameGame with HasTappables {
       }
     }
 
-    if (boy.x > size[0] / 2) {
+    if (boy.x > size[0] / 2 && sceneLevel == 1) {
       boy.x -= 30 * dt;
     }
   }
@@ -114,17 +115,48 @@ class MyGame extends FlameGame with HasTappables {
           add(dialogButton);
           dialogButtonVisible = true;
         }
-
+        break;
+    }
+    switch (dialogButton.scene2Level) {
+      case 1:
+        sceneLevel = 2;
+        canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 80, 100),
+            Paint()..color = Colors.black);
+        dialogTextPaint.render(
+            canvas, 'Ken: Child? I did not know', Vector2(10, size[1] - 100.0));
+        if (turnAway) {
+          boy.flipHorizontally();
+          turnAway = false;
+          boy.x += 150;
+          remove(background);
+          add(background2);
+          boy.changeParent(background2);
+          girl.changeParent(background2);
+        }
+        break;
+      case 2:
+        canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 80, 100),
+            Paint()..color = Colors.black);
+        dialogTextPaint.render(canvas, 'Keiko: Our child. Our future.',
+            Vector2(10, size[1] - 100.0));
+        break;
+      case 3:
+        canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 80, 100),
+            Paint()..color = Colors.black);
+        dialogTextPaint.render(canvas, 'Ken: My future will be through you.',
+            Vector2(10, size[1] - 100.0));
         break;
     }
   }
 }
 
 class DialogButton extends SpriteComponent with Tappable {
+  int scene2Level = 0;
   @override
   bool onTapDown(TapDownInfo event) {
     try {
       print('we will move to the next scene');
+      scene2Level++;
       return true;
     } catch (error) {
       print(error);
