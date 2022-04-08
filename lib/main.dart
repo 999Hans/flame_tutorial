@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyGame extends FlameGame with HasTappables {
   DialogButton dialogButton = DialogButton();
 
   bool dialogButtonVisible = false;
+  bool musicPlaying = false;
 
   final double characterSize = 200.0;
   final textBoxSize = 100;
@@ -68,6 +70,7 @@ class MyGame extends FlameGame with HasTappables {
     super.update(dt);
     if (girl.x < size[0] / 2 - 150) {
       girl.x += 30 * dt;
+
       if (girl.x > 50 && dialogLevel == 0) {
         dialogLevel = 1;
       }
@@ -92,11 +95,11 @@ class MyGame extends FlameGame with HasTappables {
     super.render(canvas);
     switch (dialogLevel) {
       case 1:
-        // //play music
-        // if (!musicPlaying) {
-        //   FlameAudio.bgm.play('music.ogg');
-        //   musicPlaying = true;
-        // }
+        //play music
+        if (!musicPlaying) {
+          FlameAudio.bgm.play('music.ogg');
+          musicPlaying = true;
+        }
 
         dialogTextPaint.render(
             canvas,
