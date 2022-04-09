@@ -97,7 +97,7 @@ class MyGame extends FlameGame with HasTappables {
       case 1:
         //play music
         if (!musicPlaying) {
-          FlameAudio.bgm.play('music.ogg');
+          FlameAudio.play('music.ogg');
           musicPlaying = true;
         }
 
