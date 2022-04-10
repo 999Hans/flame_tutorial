@@ -63,6 +63,7 @@ class MyGame extends FlameGame with HasTappables {
       ..size = buttonSize
       ..position = Vector2(
           screenWidth - buttonSize[0] - 20, screenHeight - buttonSize[1] - 20);
+    FlameAudio.play('music.ogg', volume: 10);
   }
 
   @override
@@ -96,10 +97,10 @@ class MyGame extends FlameGame with HasTappables {
     switch (dialogLevel) {
       case 1:
         //play music
-        if (!musicPlaying) {
-          FlameAudio.play('music.ogg');
-          musicPlaying = true;
-        }
+        // if (!musicPlaying) {
+        //   FlameAudio.play('music.ogg');
+        //   musicPlaying = true;
+        // }
 
         dialogTextPaint.render(
             canvas,
