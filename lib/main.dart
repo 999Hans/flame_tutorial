@@ -22,7 +22,8 @@ class MyGame extends FlameGame with HasTappables {
   final textBoxSize = 100;
   final Vector2 buttonSize = Vector2(50.0, 50.0);
   bool turnAway = false;
-  TextPaint dialogTextPaint = TextPaint(style: const TextStyle(fontSize: 36));
+  TextPaint dialogTextPaint =
+      TextPaint(style: const TextStyle(fontSize: 36, color: Colors.white));
   int dialogLevel = 0;
   int sceneLevel = 1;
 
