@@ -96,10 +96,11 @@ class MyGame extends FlameGame with HasTappables {
     switch (dialogLevel) {
       case 1:
         // play music
-        if (!musicPlaying) {
-          FlameAudio.play('game.mp3');
-          musicPlaying = true;
-        }
+        // if (!musicPlaying) {
+        //   FlameAudio.bgm.play('game.mp3');
+        //   musicPlaying = true;
+        //   FlameAudio.bgm.stop();
+        // }
 
         dialogTextPaint.render(
             canvas,
