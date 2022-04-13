@@ -32,6 +32,8 @@ class MyGame extends FlameGame with HasTappables {
     super.onLoad();
     final screenWidth = size[0];
     final screenHeight = size[1];
+    // initialize flame audio background music
+    FlameAudio.bgm.initialize();
     //setup background2
     background2
       ..sprite = await loadSprite('castle.jpg')
@@ -96,13 +98,6 @@ class MyGame extends FlameGame with HasTappables {
     super.render(canvas);
     switch (dialogLevel) {
       case 1:
-        // play music
-        // if (!musicPlaying) {
-        //   FlameAudio.bgm.play('game.mp3');
-        //   musicPlaying = true;
-        //   FlameAudio.bgm.stop();
-        // }
-
         dialogTextPaint.render(
             canvas,
             'Keiko: Ken, don\'t'
@@ -125,6 +120,12 @@ class MyGame extends FlameGame with HasTappables {
     switch (dialogButton.scene2Level) {
       case 1:
         sceneLevel = 2;
+        // play music
+        if (!musicPlaying) {
+          FlameAudio.bgm.play('game.mp3');
+          musicPlaying = true;
+          FlameAudio.bgm.stop();
+        }
         canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 80, 100),
             Paint()..color = Colors.black);
         dialogTextPaint.render(
@@ -140,6 +141,10 @@ class MyGame extends FlameGame with HasTappables {
         }
         break;
       case 2:
+        if (musicPlaying) {
+          musicPlaying = false;
+          FlameAudio.bgm.stop();
+        }
         canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 80, 100),
             Paint()..color = Colors.black);
         dialogTextPaint.render(canvas, 'Keiko: Our child. Our future.',
@@ -162,6 +167,9 @@ class DialogButton extends SpriteComponent with Tappable {
     try {
       print('we will move to the next scene');
       scene2Level++;
+      if (scene2Level > 3) {
+        scene2Level = 1;
+      }
       return true;
     } catch (error) {
       print(error);
